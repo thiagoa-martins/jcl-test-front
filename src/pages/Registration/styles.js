@@ -11,6 +11,64 @@ export const Container = styled.div`
   padding: 0 0.5rem;
 `;
 
+export const Content = styled.div`
+  background: ${({ theme }) => theme.COLORS.WHITE};
+  padding: 0.5rem;
+  box-shadow: 1rem 1rem 2rem -1rem rgba(0, 0, 0, 0.5);
+  border: none;
+  border-radius: 4px;
+  width: 90%;
+
+  h1 {
+    border-bottom: 1px solid ${({ theme }) => theme.COLORS.GRAY_300};
+    padding-bottom: 0.5rem;
+    font-weight: 500;
+  }
+
+  .register {
+    display: none;
+    justify-content: space-evenly;
+    align-items: center;
+
+    padding: 1rem;
+
+    > label {
+      font-weight: bold;
+
+      > input,
+      select {
+        border: 2px solid ${({ theme }) => theme.COLORS.GRAY_600};
+        padding: 0.5rem;
+      }
+
+      select,
+      select option {
+        font-weight: bold;
+      }
+    }
+
+    @media (max-width: 1250px) {
+      & {
+        flex-direction: column;
+        gap: 1rem;
+
+        > label {
+          display: flex;
+          flex-direction: column;
+          
+          width: 80%;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    & {
+      width: 100%;
+    }
+  }
+`;
+
 export const Icon = styled.span`
   display: flex;
   align-items: center;
@@ -24,14 +82,7 @@ export const Icon = styled.span`
 `;
 
 export const Table = styled.table`
-  background: ${({ theme }) => theme.COLORS.WHITE};
-  padding: 0.5rem;
-  box-shadow: 1rem 1rem 2rem -1rem rgba(0, 0, 0, 0.5);
-  border: none;
-  border-radius: 4px;
-  margin: 0 auto;
-
-  width: 90%;
+  width: 100%;
 
   tr {
     display: flex;
@@ -59,16 +110,6 @@ export const Table = styled.table`
       font-weight: 400;
       color: ${({ theme }) => theme.COLORS.GRAY_600};
     }
-
-    &:nth-child(odd) {
-      background: #ddd;
-    }
-  }
-
-  h1 {
-    border-bottom: 1px solid ${({ theme }) => theme.COLORS.GRAY_300};
-    padding-bottom: 0.5rem;
-    font-weight: 500;
   }
 
   tbody {
@@ -88,6 +129,10 @@ export const Table = styled.table`
     border-top: 1px solid ${({ theme }) => theme.COLORS.GRAY_300};
   }
 
+  tbody tr:nth-child(odd) {
+    background: #ddd;
+  }
+
   @media (max-width: 1100px) {
     width: 100%;
 
@@ -97,14 +142,8 @@ export const Table = styled.table`
     }
   }
 
-  @media (max-width: 700px) {
+  @media (max-width: 750px) {
     display: flex;
-
-    thead {
-      h1 {
-        display: none;
-      }
-    }
 
     thead tr,
     tbody tr {
