@@ -14,8 +14,6 @@ import { Container, Content, Table, Icon } from "./styles";
 import { api } from "../../services/api";
 
 export function Registration() {
-  const div = document.querySelector(".register");
-
   const [students, setStudents] = React.useState([]);
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
@@ -26,6 +24,19 @@ export function Registration() {
       setStudents(response.data);
     });
   }, []);
+
+  function handleRegister() {
+    const nameRegex = /^[a-zA-ZÀ-ú\ ]{4,20}$/;
+    const nameIsValid = nameRegex.test(name);
+
+    const emailRegex = /^(?=.*[\@])(?=.*[\.])[a-zA-Z0-9\@\.]{10,256}$/;
+    const emailIsValid = emailRegex.test(email);
+
+    return {
+      nameIsValid,
+      emailIsValid,
+    };
+  }
 
   return (
     <>
@@ -43,7 +54,8 @@ export function Registration() {
                 onChange={(e) => {
                   const value = e.target.value;
                   setName(value);
-                  console.log(name);
+                  const { nameIsValid } = handleRegister();
+                  console.log(nameIsValid);
                 }}
               />
             </label>
@@ -55,7 +67,8 @@ export function Registration() {
                 onChange={(e) => {
                   const value = e.target.value;
                   setEmail(value);
-                  console.log(email);
+                  const { emailIsValid } = handleRegister();
+                  console.log(emailIsValid);
                 }}
               />
             </label>
@@ -66,7 +79,6 @@ export function Registration() {
                 onChange={(e) => {
                   const value = e.target.value;
                   setCourse(value);
-                  console.log(course);
                 }}
               >
                 <option value="">-- SELECIONE --</option>
@@ -79,7 +91,13 @@ export function Registration() {
             <Button
               title="Adicionar"
               onClick={() => {
-                console.log("cliquei");
+                api.post(`students/${course}`, {
+                  name,
+                  email,
+                });
+                
+                const newStudents = [...students];
+                setStudents(newStudents);
               }}
             />
           </div>
@@ -91,6 +109,7 @@ export function Registration() {
                   <Button
                     title="Novo Aluno"
                     onClick={(e) => {
+                      const div = document.querySelector(".register");
                       div.style.display = "flex";
                       console.log("cliquei");
                     }}

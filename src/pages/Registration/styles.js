@@ -7,7 +7,6 @@ export const Container = styled.div`
 
   width: 100%;
   height: 100vh;
-
   padding: 0 0.5rem;
 `;
 
@@ -55,7 +54,7 @@ export const Content = styled.div`
         > label {
           display: flex;
           flex-direction: column;
-          
+
           width: 80%;
         }
       }
@@ -83,6 +82,11 @@ export const Icon = styled.span`
 
 export const Table = styled.table`
   width: 100%;
+
+  thead,
+  tbody {
+    display: block;
+  }
 
   tr {
     display: flex;
@@ -113,7 +117,8 @@ export const Table = styled.table`
   }
 
   tbody {
-    overflow-x: auto;
+    overflow: auto;
+    height: 350px;
   }
 
   tbody tr td:last-child {
@@ -143,46 +148,48 @@ export const Table = styled.table`
   }
 
   @media (max-width: 750px) {
-    display: flex;
-
-    thead tr,
-    tbody tr {
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100%;
-
-      th button {
-        margin: 0;
-        width: 100%;
-      }
-    }
-
-    thead tr,
-    tbody tr {
-      padding: 0.5rem;
-    }
-
-    thead tr {
-      width: 150px;
-    }
-
-    tbody tr {
-      width: 200px;
-    }
-
-    thead tr th,
-    tbody tr td {
-      width: 100%;
-      max-width: 100%;
-      text-align: center;
-    }
-
-    tbody {
+    & {
       display: flex;
-    }
 
-    tbody tr {
-      flex-direction: column;
+      tbody {
+        height: 100%;
+      }
+
+      thead tr,
+      tbody tr {
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+
+        th button {
+          margin: 0;
+          width: 100%;
+        }
+      }
+
+      thead tr,
+      tbody tr {
+        padding: 0.5rem;
+      }
+
+      thead tr {
+        width: 150px;
+      }
+      
+      thead tr th,
+      tbody tr td {
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+      }
+
+      tbody {
+        display: flex;
+      }
+
+      tbody tr {
+        flex-direction: column;
+      }
     }
   }
 
