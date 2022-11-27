@@ -20,10 +20,14 @@ export function Registration() {
   const [course, setCourse] = React.useState("");
 
   React.useEffect(() => {
+    getData();
+  }, []);
+
+  function getData() {
     api.get("/students").then((response) => {
       setStudents(response.data);
     });
-  }, []);
+  }
 
   function handleRegister() {
     const nameRegex = /^[a-zA-ZÀ-ú\ ]{4,20}$/;
@@ -55,7 +59,7 @@ export function Registration() {
                   const value = e.target.value;
                   setName(value);
                   const { nameIsValid } = handleRegister();
-                  console.log(nameIsValid);
+                  // console.log(nameIsValid);
                 }}
               />
             </label>
@@ -68,7 +72,7 @@ export function Registration() {
                   const value = e.target.value;
                   setEmail(value);
                   const { emailIsValid } = handleRegister();
-                  console.log(emailIsValid);
+                  // console.log(emailIsValid);
                 }}
               />
             </label>
@@ -95,9 +99,10 @@ export function Registration() {
                   name,
                   email,
                 });
-                
-                const newStudents = [...students];
-                setStudents(newStudents);
+
+                setTimeout(() => {
+                  getData();
+                }, 1000);                      
               }}
             />
           </div>
