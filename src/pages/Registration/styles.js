@@ -36,6 +36,7 @@ export const Content = styled.div`
       display: flex;
       flex-direction: column;
 
+      width: 30%;
       font-weight: bold;
 
       > input,

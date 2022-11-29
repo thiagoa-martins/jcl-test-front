@@ -29,7 +29,7 @@ export function Registration() {
     });
   }
 
-  function handleRegister() {
+  function validateInputs() {
     const nameRegex = /^[a-zA-ZÀ-ú\ ]{4,20}$/;
     const nameIsValid = nameRegex.test(name);
 
@@ -40,6 +40,34 @@ export function Registration() {
       nameIsValid,
       emailIsValid,
     };
+  }
+
+  function nameFeedback(span) {
+    const { nameIsValid } = validateInputs();
+
+    if (!nameIsValid) {
+      span.textContent =
+        "O nome precisa ter somente letras e entre 4 e 20 caracteres";
+      span.classList.add("error");
+      return;
+    }
+
+    span.textContent = "";
+    span.classList.remove("error");
+  }
+
+  function emailFeedback(span) {
+    const { emailIsValid } = validateInputs();
+
+    if (!emailIsValid) {
+      span.textContent =
+        " O email precisa ter um domínio válido com '@' e '.' e entre 10 e 256 caracteres";
+      span.classList.add("error");
+      return;
+    }
+
+    span.textContent = "";
+    span.classList.remove("error");
   }
 
   return (
@@ -62,21 +90,10 @@ export function Registration() {
                   const value = e.target.value;
 
                   setName(value);
-
-                  const { nameIsValid } = handleRegister();
-
-                  if (!nameIsValid) {
-                    span.textContent =
-                      "O nome precisa ter somente letras e entre 4 e 20 caracteres";
-                    span.setAttribute("class", "error");
-                    return;
-                  }
-
-                  span.textContent = "";
-                  span.setAttribute("class", "");
+                  nameFeedback(span);
                 }}
               />
-              <span></span>
+              <span className="feedback-name-register"></span>
             </label>
 
             <label>
@@ -91,21 +108,10 @@ export function Registration() {
                   const value = e.target.value;
 
                   setEmail(value);
-
-                  const { emailIsValid } = handleRegister();
-
-                  if (!emailIsValid) {
-                    span.textContent =
-                      " O email precisa ter um domínio válido com '@' e '.' e entre 10 e 256 caracteres";
-                    span.setAttribute("class", "error");
-                    return;
-                  }
-
-                  span.textContent = "";
-                  span.setAttribute("class", "");
+                  emailFeedback(span);
                 }}
               />
-              <span className="feedback"></span>
+              <span className="feedback-email-register"></span>
             </label>
 
             <label>
@@ -113,20 +119,9 @@ export function Registration() {
               <select
                 name="course"
                 onChange={(e) => {
-                  const input = e.target;
-                  const span = input.nextElementSibling;
                   const value = e.target.value;
 
                   setCourse(value);
-
-                  if (course === "") {
-                    span.textContent = "Selecione uma opção";
-                    span.setAttribute("class", "error");
-                    return;
-                  }
-
-                  span.textContent = "";
-                  span.removeAttribute("class", "error");
                 }}
               >
                 <option value="">-- SELECIONE --</option>
@@ -135,7 +130,7 @@ export function Registration() {
                 <option value="3">DBA</option>
                 <option value="4">Design Gráfico</option>
               </select>
-              <span className="feedback"></span>
+              <span></span>
             </label>
 
             <Button
@@ -144,25 +139,43 @@ export function Registration() {
                 const div = document.querySelector(".register");
                 const inputName = document.querySelector(".name-register");
                 const inputEmail = document.querySelector(".email-register");
+                const select = document.querySelector("select", "#course");
 
-                console.log(inputName);
-                console.log(inputEmail);
+                console.log(select);
+                console.log(course)
 
-                const { nameIsValid } = handleRegister();
-                const { emailIsValid } = handleRegister();
+                const spanName = document.querySelector(
+                  ".feedback-name-register"
+                );
+                const spanEmail = document.querySelector(
+                  ".feedback-email-register"
+                );
 
-                // api.post(`students/${course}`, {
-                //   name,
-                //   email,
-                // });
+                nameFeedback(spanName);
+                emailFeedback(spanEmail);
 
-                setTimeout(() => {
-                  getData();
-                }, 1000);
+                const { nameIsValid } = validateInputs();
+                const { emailIsValid } = validateInputs();
 
-                div.style.display = "none";
-                inputName.value = "";
-                inputEmail.value = "";
+                if (nameIsValid && emailIsValid && course !== "") {
+                  api.post(`students/${course}`, {
+                    name,
+                    email,
+                  });
+
+                  setTimeout(() => {
+                    getData();
+                  }, 1000);
+
+                  setName("");
+                  setEmail("");
+                  setCourse("");
+
+                  div.style.display = "none";
+                  inputName.value = "";
+                  inputEmail.value = "";
+                  select.value = "";
+                }
               }}
             />
           </div>
@@ -173,10 +186,9 @@ export function Registration() {
                 <th>
                   <Button
                     title="Novo Aluno"
-                    onClick={(e) => {
+                    onClick={() => {
                       const div = document.querySelector(".register");
                       div.style.display = "flex";
-                      console.log("cliquei");
                     }}
                   >
                     <Icon>
