@@ -67,7 +67,7 @@ export const Content = styled.div`
     button {
       display: flex;
       margin-top: 1.3rem;
-      margin-left: .5rem;
+      margin-left: 0.5rem;
     }
   }
 
@@ -97,7 +97,7 @@ export const Content = styled.div`
     }
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: 900px) {
     & {
       width: 100%;
 
@@ -192,7 +192,7 @@ export const Table = styled.table`
     }
   }
 
-  @media (max-width: 750px) {
+  @media (max-width: 900px) {
     & {
       display: flex;
 

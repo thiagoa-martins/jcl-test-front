@@ -161,6 +161,14 @@ export function Registration() {
                   api.post(`students/${course}`, {
                     name,
                     email,
+                  })
+                  .then("Aluno cadastrado com sucesso!")
+                  .catch(error => {
+                    if (error.response) {
+                      alert(error.response.data.message);
+                    } else {
+                      alert("Não foi possível cadastrar")
+                    }
                   });
 
                   setTimeout(() => {
