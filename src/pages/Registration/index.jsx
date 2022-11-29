@@ -50,87 +50,121 @@ export function Registration() {
           <h1>Alunos Cadastrados</h1>
 
           <div className="register">
-            <div>
-              <label>
-                Nome:{" "}
-                <input
-                  type="text"
-                  placeholder="Digite seu nome"
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setName(value);
-                    const { nameIsValid } = handleRegister();
+            <label>
+              Nome:{" "}
+              <input
+                className="name-register"
+                type="text"
+                placeholder="Digite seu nome"
+                onChange={(e) => {
+                  const input = e.target;
+                  const span = input.nextElementSibling;
+                  const value = e.target.value;
 
-                    if (!nameIsValid) {
-                      console.log("O nome é inválido");
+                  setName(value);
 
-                      return;
-                    }
+                  const { nameIsValid } = handleRegister();
 
-                    console.log("O nome é válido");
-                  }}
-                />
-              </label>
-              <span>O nome precisa ter somente letras</span>
-            </div>
+                  if (!nameIsValid) {
+                    span.textContent =
+                      "O nome precisa ter somente letras e entre 4 e 20 caracteres";
+                    span.setAttribute("class", "error");
+                    return;
+                  }
 
-            <div>
-              <label>
-                Email:{" "}
-                <input
-                  type="text"
-                  placeholder="johndoe@email.com"
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setEmail(value);
-                    const { emailIsValid } = handleRegister();
-                    // console.log(emailIsValid);
-                  }}
-                />
-              </label>
-              <span>O email precisa ter um domínio válido com '@' e '.'</span>
-            </div>
-
-            <div>
-              <label>
-                Curso:{" "}
-                <select
-                  name="course"
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setCourse(value);
-                  }}
-                >
-                  <option value="">-- SELECIONE --</option>
-                  <option value="1">Analista de Teste de Software</option>
-                  <option value="2">
-                    Análise e Desenvolvimento de Sistemas
-                  </option>
-                  <option value="3">DBA</option>
-                  <option value="4">Design Gráfico</option>
-                </select>
-              </label>
-            </div>
-
-            <div className="button-wrapper">
-              <Button
-                title="Adicionar"
-                onClick={() => {
-                  const div = document.querySelector(".register");
-
-                  api.post(`students/${course}`, {
-                    name,
-                    email,
-                  });
-
-                  setTimeout(() => {
-                    getData();
-                  }, 1000);
-
-                  div.style.display = "none";
+                  span.textContent = "";
+                  span.setAttribute("class", "");
                 }}
               />
-            </div>
+              <span></span>
+            </label>
+
+            <label>
+              Email:{" "}
+              <input
+                className="email-register"
+                type="text"
+                placeholder="johndoe@email.com"
+                onChange={(e) => {
+                  const input = e.target;
+                  const span = input.nextElementSibling;
+                  const value = e.target.value;
+
+                  setEmail(value);
+
+                  const { emailIsValid } = handleRegister();
+
+                  if (!emailIsValid) {
+                    span.textContent =
+                      " O email precisa ter um domínio válido com '@' e '.' e entre 10 e 256 caracteres";
+                    span.setAttribute("class", "error");
+                    return;
+                  }
+
+                  span.textContent = "";
+                  span.setAttribute("class", "");
+                }}
+              />
+              <span className="feedback"></span>
+            </label>
+
+            <label>
+              Curso:{" "}
+              <select
+                name="course"
+                onChange={(e) => {
+                  const input = e.target;
+                  const span = input.nextElementSibling;
+                  const value = e.target.value;
+
+                  setCourse(value);
+
+                  if (course === "") {
+                    span.textContent = "Selecione uma opção";
+                    span.setAttribute("class", "error");
+                    return;
+                  }
+
+                  span.textContent = "";
+                  span.removeAttribute("class", "error");
+                }}
+              >
+                <option value="">-- SELECIONE --</option>
+                <option value="1">Analista de Teste de Software</option>
+                <option value="2">Análise e Desenvolvimento de Sistemas</option>
+                <option value="3">DBA</option>
+                <option value="4">Design Gráfico</option>
+              </select>
+              <span className="feedback"></span>
+            </label>
+
+            <Button
+              title="Adicionar"
+              onClick={() => {
+                const div = document.querySelector(".register");
+                const inputName = document.querySelector(".name-register");
+                const inputEmail = document.querySelector(".email-register");
+
+                console.log(inputName);
+                console.log(inputEmail);
+
+                const { nameIsValid } = handleRegister();
+                const { emailIsValid } = handleRegister();
+
+                // api.post(`students/${course}`, {
+                //   name,
+                //   email,
+                // });
+
+                setTimeout(() => {
+                  getData();
+                }, 1000);
+
+                div.style.display = "none";
+                inputName.value = "";
+                inputEmail.value = "";
+              }}
+            />
           </div>
 
           <Table>

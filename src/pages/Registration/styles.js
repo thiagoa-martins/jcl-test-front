@@ -32,39 +32,41 @@ export const Content = styled.div`
 
     padding: 1rem;
 
-    div {
+    > label {
       display: flex;
       flex-direction: column;
 
-      > label {
-        font-weight: bold;
+      font-weight: bold;
 
-        > input,
-        select {
-          width: 100%;
-          border: 2px solid ${({ theme }) => theme.COLORS.GRAY_600};
-          padding: 0.5rem;
+      > input,
+      select {
+        width: 100%;
+        border: 2px solid ${({ theme }) => theme.COLORS.GRAY_600};
+        padding: 0.5rem;
 
-          &:focus {
-            outline: 1px solid ${({ theme }) => theme.COLORS.BLUE};
-          }
-        }
-
-        select,
-        select option {
-          font-weight: bold;
+        &:focus {
+          outline: 1px solid ${({ theme }) => theme.COLORS.BLUE};
         }
       }
 
-      & + div {
+      select,
+      select option {
+        font-weight: bold;
+      }
+
+      span.error {
+        color: ${({ theme }) => theme.COLORS.RED};
+      }
+
+      & + label {
         margin-left: 0.5rem;
       }
     }
 
-    .button-wrapper {
+    button {
       display: flex;
-      padding-top: 1.3rem;
-      width: auto;
+      margin-top: 1.3rem;
+      margin-left: .5rem;
     }
   }
 
@@ -75,22 +77,19 @@ export const Content = styled.div`
         align-items: center;
         gap: 1rem;
 
-        div {
+        > label {
+          display: flex;
+          flex-direction: column;
+
           width: 80%;
+          height: none;
 
-          > label {
-            display: flex;
-            flex-direction: column;
-
-            height: none;
-          }
-
-          & + div {
+          & + label {
             margin-left: 0;
           }
         }
 
-        .button-wrapper {
+        button {
           width: 40%;
         }
       }
@@ -104,7 +103,7 @@ export const Content = styled.div`
       .register {
         padding: 1rem 0;
 
-        div {
+        label {
           width: 100%;
         }
       }
