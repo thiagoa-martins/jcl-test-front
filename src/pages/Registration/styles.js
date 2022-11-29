@@ -13,6 +13,7 @@ export const Container = styled.div`
 export const Content = styled.div`
   background: ${({ theme }) => theme.COLORS.WHITE};
   padding: 0.5rem;
+  margin: 1rem;
   box-shadow: 1rem 1rem 2rem -1rem rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 4px;
@@ -27,35 +28,70 @@ export const Content = styled.div`
   .register {
     display: none;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: flex-start;
 
     padding: 1rem;
 
-    > label {
-      font-weight: bold;
+    div {
+      display: flex;
+      flex-direction: column;
 
-      > input,
-      select {
-        border: 2px solid ${({ theme }) => theme.COLORS.GRAY_600};
-        padding: 0.5rem;
+      > label {
+        font-weight: bold;
+
+        > input,
+        select {
+          width: 100%;
+          border: 2px solid ${({ theme }) => theme.COLORS.GRAY_600};
+          padding: 0.5rem;
+
+          &:focus {
+            outline: 1px solid ${({ theme }) => theme.COLORS.BLUE};
+          }
+        }
+
+        select,
+        select option {
+          font-weight: bold;
+        }
       }
 
-      select,
-      select option {
-        font-weight: bold;
+      & + div {
+        margin-left: 0.5rem;
       }
     }
 
-    @media (max-width: 1250px) {
-      & {
+    .button-wrapper {
+      display: flex;
+      padding-top: 1.3rem;
+      width: auto;
+    }
+  }
+
+  @media (max-width: 1250px) {
+    & {
+      .register {
         flex-direction: column;
+        align-items: center;
         gap: 1rem;
 
-        > label {
-          display: flex;
-          flex-direction: column;
-
+        div {
           width: 80%;
+
+          > label {
+            display: flex;
+            flex-direction: column;
+
+            height: none;
+          }
+
+          & + div {
+            margin-left: 0;
+          }
+        }
+
+        .button-wrapper {
+          width: 40%;
         }
       }
     }
@@ -64,6 +100,14 @@ export const Content = styled.div`
   @media (max-width: 750px) {
     & {
       width: 100%;
+
+      .register {
+        padding: 1rem 0;
+
+        div {
+          width: 100%;
+        }
+      }
     }
   }
 `;
@@ -98,6 +142,7 @@ export const Table = styled.table`
     td {
       text-align: left;
       width: 20%;
+
       max-width: 30%;
     }
 
@@ -118,7 +163,7 @@ export const Table = styled.table`
 
   tbody {
     overflow: auto;
-    height: 350px;
+    height: 250px;
   }
 
   tbody tr td:last-child {
@@ -151,10 +196,6 @@ export const Table = styled.table`
     & {
       display: flex;
 
-      tbody {
-        height: 100%;
-      }
-
       thead tr,
       tbody tr {
         flex-direction: column;
@@ -175,7 +216,7 @@ export const Table = styled.table`
       thead tr {
         width: 150px;
       }
-      
+
       thead tr th,
       tbody tr td {
         width: 100%;

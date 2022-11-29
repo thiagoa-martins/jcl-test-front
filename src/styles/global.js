@@ -7,11 +7,6 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
-  html,
-  body {
-    overflow-y: hidden;
-  }
-
   body {
     background: ${({ theme }) => theme.COLORS.GRAY_300};
     color: ${({ theme }) => theme.COLORS.BLACK};

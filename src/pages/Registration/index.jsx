@@ -50,61 +50,87 @@ export function Registration() {
           <h1>Alunos Cadastrados</h1>
 
           <div className="register">
-            <label>
-              Nome:{" "}
-              <input
-                type="text"
-                placeholder="Digite seu nome"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setName(value);
-                  const { nameIsValid } = handleRegister();
-                  // console.log(nameIsValid);
-                }}
-              />
-            </label>
-            <label>
-              Email:{" "}
-              <input
-                type="text"
-                placeholder="johndoe@email.com"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setEmail(value);
-                  const { emailIsValid } = handleRegister();
-                  // console.log(emailIsValid);
-                }}
-              />
-            </label>
-            <label>
-              Curso:{" "}
-              <select
-                name="course"
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setCourse(value);
-                }}
-              >
-                <option value="">-- SELECIONE --</option>
-                <option value="1">Analista de Teste de Software</option>
-                <option value="2">Análise e Desenvolvimento de Sistemas</option>
-                <option value="3">DBA</option>
-                <option value="4">Design Gráfico</option>
-              </select>
-            </label>
-            <Button
-              title="Adicionar"
-              onClick={() => {
-                api.post(`students/${course}`, {
-                  name,
-                  email,
-                });
+            <div>
+              <label>
+                Nome:{" "}
+                <input
+                  type="text"
+                  placeholder="Digite seu nome"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setName(value);
+                    const { nameIsValid } = handleRegister();
 
-                setTimeout(() => {
-                  getData();
-                }, 1000);                      
-              }}
-            />
+                    if (!nameIsValid) {
+                      console.log("O nome é inválido");
+
+                      return;
+                    }
+
+                    console.log("O nome é válido");
+                  }}
+                />
+              </label>
+              <span>O nome precisa ter somente letras</span>
+            </div>
+
+            <div>
+              <label>
+                Email:{" "}
+                <input
+                  type="text"
+                  placeholder="johndoe@email.com"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setEmail(value);
+                    const { emailIsValid } = handleRegister();
+                    // console.log(emailIsValid);
+                  }}
+                />
+              </label>
+              <span>O email precisa ter um domínio válido com '@' e '.'</span>
+            </div>
+
+            <div>
+              <label>
+                Curso:{" "}
+                <select
+                  name="course"
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setCourse(value);
+                  }}
+                >
+                  <option value="">-- SELECIONE --</option>
+                  <option value="1">Analista de Teste de Software</option>
+                  <option value="2">
+                    Análise e Desenvolvimento de Sistemas
+                  </option>
+                  <option value="3">DBA</option>
+                  <option value="4">Design Gráfico</option>
+                </select>
+              </label>
+            </div>
+
+            <div className="button-wrapper">
+              <Button
+                title="Adicionar"
+                onClick={() => {
+                  const div = document.querySelector(".register");
+
+                  api.post(`students/${course}`, {
+                    name,
+                    email,
+                  });
+
+                  setTimeout(() => {
+                    getData();
+                  }, 1000);
+
+                  div.style.display = "none";
+                }}
+              />
+            </div>
           </div>
 
           <Table>
