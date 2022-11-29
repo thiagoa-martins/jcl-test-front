@@ -141,9 +141,6 @@ export function Registration() {
                 const inputEmail = document.querySelector(".email-register");
                 const select = document.querySelector("select", "#course");
 
-                console.log(select);
-                console.log(course)
-
                 const spanName = document.querySelector(
                   ".feedback-name-register"
                 );
@@ -158,22 +155,23 @@ export function Registration() {
                 const { emailIsValid } = validateInputs();
 
                 if (nameIsValid && emailIsValid && course !== "") {
-                  api.post(`students/${course}`, {
-                    name,
-                    email,
-                  })
-                  .then("Aluno cadastrado com sucesso!")
-                  .catch(error => {
-                    if (error.response) {
-                      alert(error.response.data.message);
-                    } else {
-                      alert("Não foi possível cadastrar")
-                    }
-                  });
+                  api
+                    .post(`students/${course}`, {
+                      name,
+                      email,
+                    })
+                    .then(() => alert("Aluno cadastrado com sucesso!"))
+                    .catch((error) => {
+                      if (error.response) {
+                        alert(error.response.data.message);
+                      } else {
+                        alert("Não foi possível cadastrar");
+                      }
+                    });
 
                   setTimeout(() => {
                     getData();
-                  }, 1000);
+                  }, 500);
 
                   setName("");
                   setEmail("");
@@ -222,7 +220,22 @@ export function Registration() {
                         </Icon>
                       </Button>
 
-                      <Button title="Deletar" red>
+                      <Button
+                        title="Deletar"
+                        red
+                        onClick={() => {
+                          api
+                            .delete(`/students/${student.id}`)
+                            .then(() => alert("Aluno deletado com sucesso."))
+                            .catch(() => {
+                              alert("Erro ao deletar aluno.");
+                            });
+
+                          setTimeout(() => {
+                            getData();
+                          }, 500);
+                        }}
+                      >
                         <Icon>
                           <IoMdRemoveCircle />
                         </Icon>

@@ -163,7 +163,7 @@ export const Table = styled.table`
 
   tbody {
     overflow: auto;
-    height: 250px;
+    max-height: 400px;
   }
 
   tbody tr td:last-child {
