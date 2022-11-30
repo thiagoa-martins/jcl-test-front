@@ -18,6 +18,7 @@ export function Registration() {
   const [name, setName] = React.useState("");
   const [email, setEmail] = React.useState("");
   const [course, setCourse] = React.useState("");
+  const [currentStudent, setCurrentStudent] = React.useState({});
 
   React.useEffect(() => {
     getData();
@@ -70,8 +71,6 @@ export function Registration() {
     span.classList.remove("error");
   }
 
-  let currentStudent = {};
-
   return (
     <>
       <Header />
@@ -122,7 +121,6 @@ export function Registration() {
                 name="course"
                 onChange={(e) => {
                   const value = e.target.value;
-
                   setCourse(value);
                 }}
               >
@@ -192,7 +190,7 @@ export function Registration() {
             <label>
               Nome:{" "}
               <input
-                className="name-register"
+                className="name-update"
                 type="text"
                 placeholder="Digite seu nome"
                 onChange={(e) => {
@@ -210,7 +208,7 @@ export function Registration() {
             <label>
               Email:{" "}
               <input
-                className="email-register"
+                className="email-update"
                 type="text"
                 placeholder="johndoe@email.com"
                 onChange={(e) => {
@@ -225,10 +223,28 @@ export function Registration() {
               <span className="feedback-email-update"></span>
             </label>
 
+            <label>
+              Curso:{" "}
+              <select
+                className="course-update"
+                name="course"
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setCourse(value);
+                }}
+              >
+                <option value="">-- SELECIONE --</option>
+                <option value="1">Analista de Teste de Software</option>
+                <option value="2">Análise e Desenvolvimento de Sistemas</option>
+                <option value="3">DBA</option>
+                <option value="4">Design Gráfico</option>
+              </select>
+              <span></span>
+            </label>
+
             <Button
               title="Atualizar dados"
               onClick={() => {
-                const divRegister = document.querySelector(".register");
                 const divUpdate = document.querySelector(".update");
                 const inputName = document.querySelector(".name-register");
                 const inputEmail = document.querySelector(".email-register");
@@ -245,15 +261,13 @@ export function Registration() {
 
                 const { nameIsValid } = validateInputs();
                 const { emailIsValid } = validateInputs();
-                console.log(currentStudent)
-                
-                if (nameIsValid && emailIsValid) {
-                console.log(currentStudent.id);
 
+                if (nameIsValid && emailIsValid && course !== "") {
                   api
                     .put(`students/${currentStudent.id}`, {
                       name,
                       email,
+                      course_id: course,
                     })
                     .then(() => alert("Dados atualizados com sucesso!"))
                     .catch((error) => {
@@ -270,6 +284,7 @@ export function Registration() {
 
                   setName("");
                   setEmail("");
+                  setCourse("");
 
                   divUpdate.style.display = "none";
                   inputName.value = "";
@@ -312,16 +327,28 @@ export function Registration() {
                       <Button
                         title="Alterar"
                         onClick={() => {
+                          const divUpdate = document.querySelector(".update");
                           const divRegister =
                             document.querySelector(".register");
-                          const divUpdate = document.querySelector(".update");
+                          const inputName =
+                            document.querySelector(".name-update");
+                          const inputEmail =
+                            document.querySelector(".email-update");
+                          const select =
+                            document.querySelector(".course-update");
 
                           divRegister.style.display = "none";
                           divUpdate.style.display = "flex";
-                          
-                          currentStudent = student;
-                          console.log("alterar")
-                          console.log(currentStudent)
+
+                          inputName.value = student.name;
+                          inputEmail.value = student.email;
+                          select.value = student.course_id;
+
+                          setName(student.name);
+                          setEmail(student.email);
+                          setCourse(student.course_id);
+
+                          setCurrentStudent(student);
                         }}
                       >
                         <Icon>
@@ -333,6 +360,13 @@ export function Registration() {
                         title="Deletar"
                         red
                         onClick={() => {
+                          const divUpdate = document.querySelector(".update");
+                          const divRegister =
+                            document.querySelector(".register");
+
+                            divRegister.style.display = "none";
+                            divUpdate.style.display = "none";
+
                           api
                             .delete(`/students/${student.id}`)
                             .then(() => alert("Aluno deletado com sucesso."))
