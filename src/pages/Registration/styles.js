@@ -25,7 +25,8 @@ export const Content = styled.div`
     font-weight: 500;
   }
 
-  .register {
+  .register,
+  .update {
     display: none;
     justify-content: space-evenly;
     align-items: flex-start;
@@ -73,7 +74,8 @@ export const Content = styled.div`
 
   @media (max-width: 1250px) {
     & {
-      .register {
+      .register,
+      .update {
         flex-direction: column;
         align-items: center;
         gap: 1rem;
@@ -101,7 +103,8 @@ export const Content = styled.div`
     & {
       width: 100%;
 
-      .register {
+      .register,
+      .update {
         padding: 1rem 0;
 
         label {

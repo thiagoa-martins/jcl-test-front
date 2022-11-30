@@ -70,6 +70,8 @@ export function Registration() {
     span.classList.remove("error");
   }
 
+  let currentStudent = {};
+
   return (
     <>
       <Header />
@@ -186,6 +188,97 @@ export function Registration() {
             />
           </div>
 
+          <div className="update">
+            <label>
+              Nome:{" "}
+              <input
+                className="name-register"
+                type="text"
+                placeholder="Digite seu nome"
+                onChange={(e) => {
+                  const input = e.target;
+                  const span = input.nextElementSibling;
+                  const value = e.target.value;
+
+                  setName(value);
+                  nameFeedback(span);
+                }}
+              />
+              <span className="feedback-name-update"></span>
+            </label>
+
+            <label>
+              Email:{" "}
+              <input
+                className="email-register"
+                type="text"
+                placeholder="johndoe@email.com"
+                onChange={(e) => {
+                  const input = e.target;
+                  const span = input.nextElementSibling;
+                  const value = e.target.value;
+
+                  setEmail(value);
+                  emailFeedback(span);
+                }}
+              />
+              <span className="feedback-email-update"></span>
+            </label>
+
+            <Button
+              title="Atualizar dados"
+              onClick={() => {
+                const divRegister = document.querySelector(".register");
+                const divUpdate = document.querySelector(".update");
+                const inputName = document.querySelector(".name-register");
+                const inputEmail = document.querySelector(".email-register");
+
+                const spanName = document.querySelector(
+                  ".feedback-name-update"
+                );
+                const spanEmail = document.querySelector(
+                  ".feedback-email-update"
+                );
+
+                nameFeedback(spanName);
+                emailFeedback(spanEmail);
+
+                const { nameIsValid } = validateInputs();
+                const { emailIsValid } = validateInputs();
+                console.log(currentStudent)
+                
+                if (nameIsValid && emailIsValid) {
+                console.log(currentStudent.id);
+
+                  api
+                    .put(`students/${currentStudent.id}`, {
+                      name,
+                      email,
+                    })
+                    .then(() => alert("Dados atualizados com sucesso!"))
+                    .catch((error) => {
+                      if (error.response) {
+                        alert(error.response.data.message);
+                      } else {
+                        alert("Não foi possível atualizar");
+                      }
+                    });
+
+                  setTimeout(() => {
+                    getData();
+                  }, 500);
+
+                  setName("");
+                  setEmail("");
+
+                  divUpdate.style.display = "none";
+                  inputName.value = "";
+                  inputEmail.value = "";
+                }
+              }}
+            />
+          </div>
+
           <Table>
             <thead>
               <TableHead>
@@ -193,8 +286,10 @@ export function Registration() {
                   <Button
                     title="Novo Aluno"
                     onClick={() => {
-                      const div = document.querySelector(".register");
-                      div.style.display = "flex";
+                      const divRegister = document.querySelector(".register");
+                      const divUpdate = document.querySelector(".update");
+                      divRegister.style.display = "flex";
+                      divUpdate.style.display = "none";
                     }}
                   >
                     <Icon>
@@ -214,7 +309,21 @@ export function Registration() {
                     course={student.title}
                   >
                     <td>
-                      <Button title="Alterar">
+                      <Button
+                        title="Alterar"
+                        onClick={() => {
+                          const divRegister =
+                            document.querySelector(".register");
+                          const divUpdate = document.querySelector(".update");
+
+                          divRegister.style.display = "none";
+                          divUpdate.style.display = "flex";
+                          
+                          currentStudent = student;
+                          console.log("alterar")
+                          console.log(currentStudent)
+                        }}
+                      >
                         <Icon>
                           <HiOutlinePencilAlt />
                         </Icon>
