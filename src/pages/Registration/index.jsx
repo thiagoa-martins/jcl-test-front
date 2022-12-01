@@ -160,7 +160,10 @@ export function Registration() {
                       name,
                       email,
                     })
-                    .then(() => alert("Aluno cadastrado com sucesso!"))
+                    .then(() => {
+                      alert("Aluno cadastrado com sucesso!");
+                      getData();
+                    })
                     .catch((error) => {
                       if (error.response) {
                         alert(error.response.data.message);
@@ -168,10 +171,6 @@ export function Registration() {
                         alert("Não foi possível cadastrar");
                       }
                     });
-
-                  setTimeout(() => {
-                    getData();
-                  }, 500);
 
                   setName("");
                   setEmail("");
@@ -269,7 +268,10 @@ export function Registration() {
                       email,
                       course_id: course,
                     })
-                    .then(() => alert("Dados atualizados com sucesso!"))
+                    .then(() => {
+                      alert("Dados atualizados com sucesso!");
+                      getData();
+                    })
                     .catch((error) => {
                       if (error.response) {
                         alert(error.response.data.message);
@@ -277,10 +279,6 @@ export function Registration() {
                         alert("Não foi possível atualizar");
                       }
                     });
-
-                  setTimeout(() => {
-                    getData();
-                  }, 500);
 
                   setName("");
                   setEmail("");
@@ -364,19 +362,18 @@ export function Registration() {
                           const divRegister =
                             document.querySelector(".register");
 
-                            divRegister.style.display = "none";
-                            divUpdate.style.display = "none";
+                          divRegister.style.display = "none";
+                          divUpdate.style.display = "none";
 
                           api
                             .delete(`/students/${student.id}`)
-                            .then(() => alert("Aluno deletado com sucesso."))
+                            .then(() => {
+                              alert("Aluno deletado com sucesso.");
+                              getData();
+                            })
                             .catch(() => {
                               alert("Erro ao deletar aluno.");
                             });
-
-                          setTimeout(() => {
-                            getData();
-                          }, 500);
                         }}
                       >
                         <Icon>
