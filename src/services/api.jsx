@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-  baseURL: "https://jcl-test-backend.onrender.com",
+  baseURL: "https://wide-eyed-foal-peplum.cyclic.app",
 });
